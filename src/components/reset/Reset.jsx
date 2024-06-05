@@ -12,7 +12,7 @@ function Reset() {
     const handleSubmit = async (e)=>{
         e.preventDefault();
         
-        const res = await axios.post('http://localhost:3000/api/password/create-link', {email})
+        const res = await axios.post('https://be-cognisite.onrender.com/api/password/create-link', {email})
         console.log(res)
         if(res.status !== 200){
             alert("Email Not Found")
