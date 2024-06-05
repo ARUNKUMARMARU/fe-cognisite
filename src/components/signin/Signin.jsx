@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Signin.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { Form, Input, Button, Modal, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import introimg from "../../assets/landingpage.png";
@@ -125,7 +126,7 @@ const Signin = () => {
               <a href="" className='forgotpassword'>Forgot Password?</a><br /><br />
               <Button type="primary" htmlType="submit" style={{ width: '100%' }}>SIGN IN</Button><br /><br /> */}
 
-            <label htmlFor="email"><span style={{fontWeight:"bold"}}>Password</span> <a href="/password-reset" className='forgotpassword'>Forgot Password?</a></label>            
+            <label htmlFor="email"><span style={{fontWeight:"bold"}}>Password</span> <Link to="/password-reset" className='forgotpassword'>Forgot Password?</Link></label>            
 
            <Input.Password placeholder="Enter Your Password" value={password}
            onChange={(e)=>setPassword(e.target.value)}
