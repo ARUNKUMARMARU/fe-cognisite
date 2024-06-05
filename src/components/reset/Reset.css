@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
+}
+.form{
+    flex: 2;   
+    display: flex;   
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    
+}
+.reset-logo{
+   position: absolute;
+   right: 2vw;   
+}
+.reset-logo img {
+    max-width: 130px; /* Adjust size as needed */
+    height: auto;
+}
