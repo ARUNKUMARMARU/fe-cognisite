@@ -26,8 +26,9 @@ function NewPassword() {
     e.preventDefault();
     
    if(message == ''){
-    const res = await axios.post(`https://be-cognisite.onrender.com/api/password/reset-password/${token}`, {password});
-    
+     const res = await axios.post(`https://be-cognisite.onrender.com/api/password/reset-password/${token}`,{password}); 
+    // const res = await axios.post(`http://localhost:3000/api/password/reset-password/${token}`, {password});
+   
    if(res.status == 200){
     alert("Your Password has been Changed Successfully")
     navigate("/")

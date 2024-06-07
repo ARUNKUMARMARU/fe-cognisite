@@ -63,10 +63,11 @@ function Observation() {
   const [corrction, setCorrection] = useState('');
   const [action, setaction] = useState('');
   const [formData, setFormData] = useState([]);
+
 useEffect( async ()=>{
-  const getres= await axios.get('https://be-cognisite.onrender.com/api/user/getobservation').then((e) => {      
-  setFormData(e.data.result)  
-})
+   const getres= await axios.get('https://be-cognisite.onrender.com/api/user/getobservation')
+  // const getres= await axios.get('http://localhost:3000/api/user/getobservation')      
+  setFormData(getres.data.savedObservation);
 }, [])
 
   // const handleEdit = (data) => {   
@@ -101,7 +102,8 @@ useEffect( async ()=>{
       action : action
     };
    
-    const res= await axios.post('https://be-cognisite.onrender.com/api/user/observation', newData)    
+     const res= await axios.post('https://be-cognisite.onrender.com/api/user/observation', newData)
+    // const res= await axios.post('http://localhost:3000/api/user/observation', newData)      
     setFormData([...formData, newData])
     setModal(false);
     

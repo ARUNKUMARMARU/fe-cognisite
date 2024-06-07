@@ -40,6 +40,7 @@ const Signin = () => {
   const handleSubmit = async () => {
    
     const res = await axios.post('https://be-cognisite.onrender.com/api/user/signup', formData);
+    // const res = await axios.post('http://localhost:3000/api/user/signup', formData);
 
     if (formData.organisation_name && formData.name && formData.email && formData.password && formData.mobile_number && formData.address) {
       setIsLoading(true);
@@ -83,8 +84,8 @@ const Signin = () => {
       password: password,
     };
     
-   
-    const res = await axios.post("https://be-cognisite.onrender.com/api/user/signin", user);
+     const res = await axios.post("https://be-cognisite.onrender.com/api/user/signin", user);
+    // const res = await axios.post("http://localhost:3000/api/user/signin", user);
     console.log(res)
     //Example handling logic, replace with actual implementation
     if (res.status == 200) {    
@@ -115,7 +116,7 @@ const Signin = () => {
                 <Input placeholder="Enter Your Email" style={{ marginTop: '10px' }} />
               </Form.Item> */}
                <label htmlFor="email" ><span style={{fontWeight:"bold"}}>Email address</span></label> 
-            <Input placeholder="Enter Your Email" name="email" value={email}
+            <Input placeholder="Enter Your Email" type='email' name="email" value={email}
             onChange={(e)=>setEmail(e.target.value)}
             style={{marginTop:'10px'}}/> <br /> <br />
               
