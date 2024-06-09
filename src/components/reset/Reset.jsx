@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input, Button } from 'antd';
+import { Input, Button , Spin} from 'antd';
 import {MailOutlined} from "@ant-design/icons"
 import password from '../../assets/password.jpg'
 import logo from "../../assets/logo1.png";
@@ -10,20 +10,32 @@ import { useNavigate } from 'react-router-dom';
 
 function Reset() {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState("");
-    const handleSubmit = async (e)=>{
-        e.preventDefault();
+
+
+    const handleSubmit = async (e)=>{       
+        e.preventDefault();       
         
-         const res = await axios.post('https://be-cognisite.onrender.com/api/password/create-link', {email})
-        // const res = await axios.post('http://localhost:3000/api/password/create-link', {email})
-        console.log(res)
-        if(res.status !== 200){
-            alert("Email Not Found")
+        if(email){
+            setIsLoading(true)
+           const res = await axios.post('https://be-cognisite.onrender.com/api/password/create-link', {email})
+             //const res = await axios.post('http://localhost:3000/api/password/create-link', {email})
+            
+            if(res.data.Message == "Email not found"){
+                setIsLoading(false)
+                alert("Email Not Found")
+                
+            }else{
+                alert("Password reset link sent successfully. Kindly check your email.")
+                setEmail("");
+                navigate('/')
+            }
         }else{
-            alert("Password reset link sent successfully")
-            setEmail("");
-            navigate('/')
+           
+            alert("Kindly Enter Registered Mail ID")
         }
+        
     }
 
   return (
@@ -43,9 +55,8 @@ function Reset() {
                  onChange={(e)=>setEmail(e.target.value)}
                  />
 
-                 <button type="submit" style={{width:'100%', marginTop:'1.5vw', backgroundColor:'blue', color:'white', height:'35px', fontWeight:"bold",
-                    fontSize:"1.1vw", border:"none", borderRadius:'10px'
-                 }}>Submit</button>
+                {isLoading ? (<Spin key="loading"/>) : (<button type="submit" 
+                 style={{width:'100%', marginTop:'1.5vw', backgroundColor:'blue', color:'white', height:'35px', fontWeight:"bold",fontSize:"1.1vw", border:"none", borderRadius:'10px'}}>Submit</button>)}
             </form>
         </div>
 

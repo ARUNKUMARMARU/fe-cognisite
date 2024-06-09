@@ -10,6 +10,7 @@ import logo from "../../assets/logo1.png";
 const Signin = () => {
   const [isModal, setIsModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSigninLoading, setIsSigninLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
@@ -17,7 +18,7 @@ const Signin = () => {
 
   const handleSignup = () => {
     setIsModal(!isModal);
-    setIsLoading(false);
+    
   };
 
   const [formData, setFormData] = useState({
@@ -38,12 +39,11 @@ const Signin = () => {
   };
 
   const handleSubmit = async () => {
-   
-    const res = await axios.post('https://be-cognisite.onrender.com/api/user/signup', formData);
-    // const res = await axios.post('http://localhost:3000/api/user/signup', formData);
+    setIsLoading(true);   
 
-    if (formData.organisation_name && formData.name && formData.email && formData.password && formData.mobile_number && formData.address) {
-      setIsLoading(true);
+    if (formData.organisation_name && formData.name && formData.email && formData.password && formData.mobile_number && formData.address) {   
+      const res = await axios.post('https://be-cognisite.onrender.com/api/user/signup', formData);
+      // const res = await axios.post('http://localhost:3000/api/user/signup', formData);   
       
       if (res.status === 500) {
         setIsLoading(false);
@@ -58,9 +58,11 @@ const Signin = () => {
           mobilenumber: '',
           address: ''         
         });
+        setIsLoading(false);
         alert('Signup Compleated Successfully');
       }
     } else {
+      setIsLoading(false);
       alert("Kindly Enter All Mandatory Fields");
     }
   };
@@ -75,24 +77,31 @@ const Signin = () => {
       address: ''         
     });
     setIsModal(false);
+    setIsLoading(false);
   };
 
   const onFinish = async (e) => {
-   e.preventDefault();
-       const user = {
-      email: email,
-      password: password,
-    };
-    
-     const res = await axios.post("https://be-cognisite.onrender.com/api/user/signin", user);
-    // const res = await axios.post("http://localhost:3000/api/user/signin", user);
-    console.log(res)
-    //Example handling logic, replace with actual implementation
-    if (res.status == 200) {    
-        navigate('/observation');      
-      } else{
-        alert("Invalid Email or Password")
-      }      
+   e.preventDefault();      
+     setIsSigninLoading(true)
+    if(email && password){
+      const user = {
+        email: email,
+        password: password,
+      };
+      const res = await axios.post("https://be-cognisite.onrender.com/api/user/signin", user);
+      //const res = await axios.post("http://localhost:3000/api/user/signin", user);
+      console.log(res)
+      if (res.data.message =='user signed in') {    
+        setIsSigninLoading(false)
+          navigate('/observation');      
+        } else{
+          setIsSigninLoading(false)
+          alert("Invalid Email or Password")
+        }      
+    }else{
+      setIsSigninLoading(false)
+      alert("Kindly Fill All Mandatory Fields")
+    }
   };
 
   return (
@@ -133,7 +142,7 @@ const Signin = () => {
            onChange={(e)=>setPassword(e.target.value)}
            style={{marginTop:'10px'}}/> <br /><br /><br />
 
-           <button type="submit" style={{width:'100%', backgroundColor:'blue', border:'none', color:'white', height:'5vh', borderRadius:'10px'}}>SIGN IN </button> <br /> <br />
+       {isSigninLoading ? (<Spin key="loading" />) : (<button type="submit" style={{width:'100%', backgroundColor:'blue', border:'none', color:'white', height:'5vh', borderRadius:'10px'}}>SIGN IN </button>)} <br /> <br />
             </form>
 
             <div style={{ textAlign: "center" }}>

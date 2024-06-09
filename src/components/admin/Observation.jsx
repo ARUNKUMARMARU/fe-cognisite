@@ -64,10 +64,13 @@ function Observation() {
   const [action, setaction] = useState('');
   const [formData, setFormData] = useState([]);
 
-useEffect( async ()=>{
-   const getres= await axios.get('https://be-cognisite.onrender.com/api/user/getobservation')
-  // const getres= await axios.get('http://localhost:3000/api/user/getobservation')      
-  setFormData(getres.data.savedObservation);
+useEffect( async ()=>{  
+    
+        const getres = await axios.get('https://be-cognisite.onrender.com/api/user/getobservation');
+       
+          setFormData(getres.data.savedObservation);        
+     
+    
 }, [])
 
   // const handleEdit = (data) => {   

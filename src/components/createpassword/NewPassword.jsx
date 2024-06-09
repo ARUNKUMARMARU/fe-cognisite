@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Create.css';
 import axios from 'axios';
+import { Spin } from 'antd';
 import { redirect, useNavigate, useParams } from 'react-router-dom';
 import logo from "../../assets/logo1.png"
 
@@ -10,6 +11,7 @@ function NewPassword() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleConfirmPassword = (e)=>{
     setConfirmPassword(e.target.value);
@@ -24,20 +26,27 @@ function NewPassword() {
 
   const handleSubmit = async (e)=>{
     e.preventDefault();
+    setIsLoading(true)
+   if(password || confirmPassword){
+    if(message == ''){
+      const res = await axios.post(`https://be-cognisite.onrender.com/api/password/reset-password/${token}`,{password}); 
+     // const res = await axios.post(`http://localhost:3000/api/password/reset-password/${token}`, {password});
     
-   if(message == ''){
-     const res = await axios.post(`https://be-cognisite.onrender.com/api/password/reset-password/${token}`,{password}); 
-    // const res = await axios.post(`http://localhost:3000/api/password/reset-password/${token}`, {password});
-   
-   if(res.status == 200){
-    alert("Your Password has been Changed Successfully")
-    navigate("/")
-   }
-
-    setPassword("");
-    setConfirmPassword("")
+    if(res.status == 200){
+      setIsLoading(false)
+     alert("Your Password has been Changed Successfully")
+     navigate("/")
+    }
+ 
+     setPassword("");
+     setConfirmPassword("")
+    }else{
+      setIsLoading(false)
+     setMessage("Password Mismatch")
+    }
    }else{
-    setMessage("Password Mismatch")
+    setIsLoading(false)
+    alert('Kindly Fill All Mandatory Fields')
    }
   }
   return (
@@ -73,7 +82,7 @@ function NewPassword() {
           <p style={{color:'red'}}>{message}</p>
         </div>
 
-        <button type="submit" className="btn">Set New Password</button>
+        {isLoading ? (<Spin key= "loading"/>) : (<button type="submit" className="btn">Set New Password</button>)}
 
       </form>
     </div>
