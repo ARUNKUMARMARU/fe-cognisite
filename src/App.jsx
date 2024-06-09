@@ -2,7 +2,7 @@ import React from 'react'
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom'
 import Signin from './components/signin/Signin'
 import Reset from './components/reset/Reset'
-import NewPassword from './components/createpassword/newPassword'
+import NewPassword from "./components/createpassword/NewPassword"
 import Navbar from './components/Navebar/Navbar'
 import Observation from './components/admin/Observation'
 import { Layout } from 'antd'
