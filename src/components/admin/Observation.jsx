@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./Observation.css"
 import { Link } from 'react-router-dom';
-import { Table , Tag, Modal, Form, Button, Input, Layout} from 'antd'
+import { Table , Tag, Modal, Form, Button, Input, Layout, Select, Space} from 'antd'
 import axios from 'axios';
 import Navbar from '../Navebar/Navbar';
 import { MailOutlined, PhoneOutlined } from '@ant-design/icons';
@@ -64,6 +64,10 @@ function Observation() {
   const [action, setaction] = useState('');
   const [formData, setFormData] = useState([]);
 
+  const handleChange = (value) => {
+    setPersion(value)
+  };
+
 useEffect( async ()=>{  
     
         const getres = await axios.get('https://be-cognisite.onrender.com/api/user/getobservation');
@@ -94,6 +98,7 @@ useEffect( async ()=>{
   };
  
   const handleSubmit = async (e)=>{
+   if(location && problem && target && status && persion && corrction && action){
     e.preventDefault();
     const newData  = {
       location : location,
@@ -105,10 +110,13 @@ useEffect( async ()=>{
       action : action
     };
    
-     const res= await axios.post('https://be-cognisite.onrender.com/api/user/observation', newData)
-    // const res= await axios.post('http://localhost:3000/api/user/observation', newData)      
+     //const res= await axios.post('https://be-cognisite.onrender.com/api/user/observation', newData)
+    const res= await axios.post('http://localhost:3000/api/user/observation', newData)      
     setFormData([...formData, newData])
     setModal(false);
+   }else{
+    alert("Kindly Enter All Mandatory Fields")
+   }
     
   
   }
@@ -198,6 +206,7 @@ useEffect( async ()=>{
           </Form.Item>
 
           <Form.Item label={<span><span style={{ color: 'red' }}>*</span>Status </span>}>
+          
             <Input
               type="text"
               name="status"
@@ -209,7 +218,33 @@ useEffect( async ()=>{
             />
           </Form.Item>
           <Form.Item label={<span><span style={{ color: 'red' }}>*</span>Responsible persion </span>}>
-            <Input
+          <Select
+      defaultValue="select"
+      style={{
+        width: 150,
+      }}
+      onChange={handleChange}
+      options={[
+        {
+          value: 'ram',
+          label: 'Ram',
+        },
+        {
+          value: 'krish',
+          label: 'Krish',
+        },
+        {
+          value: 'mukesh',
+          label: 'Mukesh',
+        },
+        {
+          value: 'ravi',
+          label: 'Ravi',
+        },
+       
+      ]}
+    />
+            {/* <Input
              type="text"
               name="persion"
               value={persion}
@@ -217,7 +252,7 @@ useEffect( async ()=>{
               onChange={(e)=>setPersion(e.target.value)}
               placeholder="Enter Persion name"
               required
-            />
+            /> */}
           </Form.Item>
           
           <Form.Item label={<span><span style={{ color: 'red' }}>*</span>Correction </span>}>
