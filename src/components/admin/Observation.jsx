@@ -113,7 +113,18 @@ useEffect( async ()=>{
      //const res= await axios.post('https://be-cognisite.onrender.com/api/user/observation', newData)
     const res= await axios.post('http://localhost:3000/api/user/observation', newData)      
     setFormData([...formData, newData])
+
+    setCorrection("");
+    setLocation("");
+    setProblem("");
+    setTarget("");
+    setPersion("");
+    setaction("");
+    setCorrection("");
+    
     setModal(false);
+
+    
    }else{
     alert("Kindly Enter All Mandatory Fields")
    }
